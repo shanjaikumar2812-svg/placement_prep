@@ -1,0 +1,205 @@
+/* SWAYAM x GUVI Placement Mastery Hub - Apple.com Minimalist Design System */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg-canvas: #F5F5F7;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #FAFAFC;
+  --bg-glass: rgba(255, 255, 255, 0.84);
+  --text-primary: #1D1D1F;
+  --text-secondary: #515154;
+  --text-muted: #86868B;
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-focus: #0071E3;
+  --brand-primary: #0071E3;
+  --radius-bento: 18px;
+  --radius-control: 9999px;
+  --shadow-bento: 0 2px 12px rgba(0, 0, 0, 0.035), 0 0 1px rgba(0, 0, 0, 0.08);
+  --shadow-bento-hover: 0 8px 24px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.12);
+  --space-card: 1.375rem;
+  --space-gap: 1.25rem;
+  --transition-fast: 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+html[data-theme="dark"] {
+  --bg-canvas: #000000;
+  --bg-surface: #1C1C1E;
+  --bg-elevated: #2C2C2E;
+  --bg-glass: rgba(28, 28, 30, 0.86);
+  --text-primary: #F5F5F7;
+  --text-secondary: #A1A1A6;
+  --text-muted: #86868B;
+  --border-subtle: rgba(255, 255, 255, 0.12);
+  --shadow-bento: 0 4px 16px rgba(0, 0, 0, 0.45), 0 0 1px rgba(255, 255, 255, 0.12);
+  --shadow-bento-hover: 0 8px 28px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255, 255, 255, 0.22);
+}
+
+html[data-density="compact"] {
+  --space-card: 0.95rem;
+  --space-gap: 0.75rem;
+  --radius-bento: 14px;
+}
+
+html[data-density="spacious"] {
+  --space-card: 1.85rem;
+  --space-gap: 1.75rem;
+  --radius-bento: 22px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: -0.011em;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Plus Jakarta Sans', 'Inter', sans-serif;
+  letter-spacing: -0.024em;
+  text-wrap: balance;
+}
+
+code, pre, .font-mono {
+  font-family: 'SF Mono', 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Apple Frosted Glass White Header */
+.apple-header {
+  background-color: var(--bg-glass);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.apple-nav-shell {
+  background-color: rgba(245, 245, 247, 0.75);
+  border-top: 1px solid var(--border-subtle);
+}
+
+html[data-theme="dark"] .apple-nav-shell {
+  background-color: rgba(28, 28, 30, 0.75);
+}
+
+.apple-drawer {
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border-right: 1px solid var(--border-subtle);
+}
+
+html[data-theme="dark"] .apple-drawer {
+  background-color: rgba(28, 28, 30, 0.96);
+}
+
+.apple-notif-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+html[data-theme="dark"] .apple-notif-card {
+  background-color: rgba(28, 28, 30, 0.96);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+.apple-stat-pill {
+  background-color: #F5F5F7;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  color: #1D1D1F;
+}
+
+html[data-theme="dark"] .apple-stat-pill {
+  background-color: #2C2C2E;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #F5F5F7;
+}
+
+.hamburger-bar {
+  background-color: #1D1D1F;
+}
+
+html[data-theme="dark"] .hamburger-bar {
+  background-color: #F5F5F7;
+}
+
+/* Visible Focus Rings & Touch Targets */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--border-focus) !important;
+  outline-offset: 2px !important;
+}
+
+.nav-tab-btn, #btn-export-log, #btn-open-guvi-sync, #btn-theme-toggle, #btn-density-toggle, #btn-toggle-menu, #btn-notif-center {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.nav-tab-btn:active, button:active {
+  transform: scale(0.985);
+}
+
+/* Bento Card Architecture */
+.bg-white.rounded-xl {
+  background-color: var(--bg-surface) !important;
+  border-color: var(--border-subtle) !important;
+  border-radius: var(--radius-bento) !important;
+  padding: var(--space-card) !important;
+  box-shadow: var(--shadow-bento) !important;
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+html[data-theme="dark"] .bg-slate-50,
+html[data-theme="dark"] .bg-slate-50\/70,
+html[data-theme="dark"] .bg-slate-100 {
+  background-color: var(--bg-elevated) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .text-slate-950,
+html[data-theme="dark"] .text-slate-900,
+html[data-theme="dark"] .text-slate-800,
+html[data-theme="dark"] .text-slate-700 {
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .text-slate-600,
+html[data-theme="dark"] .text-slate-500 {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] select {
+  background-color: #1C1C1E !important;
+  color: #F5F5F7 !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: rgba(134, 134, 139, 0.4);
+  border-radius: 9999px;
+}

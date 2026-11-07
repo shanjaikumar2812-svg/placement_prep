@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Placement Mastery Hub</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col bg-[#F5F5F7] text-slate-900">
+
+  <!-- Top Navigation Header (Apple.com Minimalist Frosted White Header — Zero Clutter Icons) -->
+  <header class="apple-header sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <!-- 3-Line Hamburger Menu Button to Open Hidden Weekly Tasks & 12-Week Syllabus Drawer -->
+        <button id="btn-toggle-menu" type="button" aria-label="Toggle Weekly Tasks Menu" aria-expanded="false" title="Open Weekly Tasks &amp; Syllabus Menu" class="w-10 h-10 rounded-full apple-stat-pill hover:bg-slate-200/80 flex flex-col items-center justify-center gap-[4.5px] transition shadow-2xs shrink-0">
+          <span class="hamburger-bar w-4 h-[1.75px] rounded-full block"></span>
+          <span class="hamburger-bar w-4 h-[1.75px] rounded-full block"></span>
+          <span class="hamburger-bar w-4 h-[1.75px] rounded-full block"></span>
+          <span class="sr-only">Menu · Weekly Tasks</span>
+        </button>
+
+        <div>
+          <div class="flex flex-wrap items-center gap-2 text-[11px] font-medium tracking-wider uppercase text-slate-400">
+            <span class="text-slate-500 font-semibold">SWAYAM LMS</span>
+            <span>·</span>
+            <span class="text-slate-500 font-semibold">GUVI CodeKata</span>
+            <span>·</span>
+            <span id="session-persist-badge" class="text-slate-500">Session Auto-Save Ready</span>
+          </div>
+          <h1 class="text-base sm:text-xl font-display font-semibold tracking-tight text-slate-950 mt-0.5">
+            Shanjai Kumar G M <span class="text-slate-300 font-light mx-1">/</span> <span class="text-slate-600 font-normal">Data Science Placement Hub</span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- Minimalist Apple Pill Metrics & Controls (No Unwanted Icons) -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="apple-stat-pill rounded-full px-3.5 py-1.5 flex items-center gap-1.5" title="Synced GUVI GeekCoins & Task XP">
+          <span class="text-slate-500 text-xs font-medium">GeekCoins</span>
+          <span id="stat-xp" class="font-mono font-semibold text-slate-950 text-xs sm:text-sm">0</span>
+        </div>
+        <div class="apple-stat-pill rounded-full px-3.5 py-1.5 flex items-center gap-1.5" title="Completed Daily Micro-Tasks">
+          <span class="text-slate-500 text-xs font-medium">Tasks</span>
+          <span id="stat-tasks" class="font-mono font-semibold text-slate-950 text-xs sm:text-sm">0/0</span>
+        </div>
+        <div class="apple-stat-pill rounded-full px-3.5 py-1.5 flex items-center gap-1.5" title="Average SWAYAM Weekly Quiz Score">
+          <span class="text-slate-500 text-xs font-medium">Quiz Avg</span>
+          <span id="stat-quiz" class="font-mono font-semibold text-slate-950 text-xs sm:text-sm">0%</span>
+        </div>
+
+        <button id="btn-notif-center" type="button" aria-label="Open Consistency Notifications" class="apple-stat-pill hover:bg-slate-200/70 text-slate-800 text-xs font-medium px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5">
+          <span>Notifications</span>
+          <span id="notif-unread-badge" class="font-mono text-[11px] font-semibold px-1.5 py-0.2 rounded-full bg-slate-950 text-white">0</span>
+        </button>
+
+        <button id="btn-open-guvi-sync" type="button" aria-label="Open GUVI Account Sync" class="apple-stat-pill hover:bg-slate-200/70 text-slate-800 text-xs font-medium px-3.5 py-1.5 rounded-full transition">
+          <span id="guvi-header-status">GUVI: shanjaikumar2812@gmail.com</span>
+        </button>
+
+        <button id="btn-density-toggle" type="button" aria-label="Toggle UI Density Dial" class="apple-stat-pill hover:bg-slate-200/70 text-slate-700 text-xs font-medium px-3 py-1.5 rounded-full transition" title="Toggle Spacing Density">
+          <span id="density-label">Density: Standard</span>
+        </button>
+        <button id="btn-theme-toggle" type="button" aria-label="Toggle Dark or Light Mode" class="apple-stat-pill hover:bg-slate-200/70 text-slate-700 text-xs font-medium px-3 py-1.5 rounded-full transition" title="Toggle Appearance">
+          <span id="theme-label">Dark Mode</span>
+        </button>
+
+        <button id="btn-export-log" type="button" class="bg-slate-950 hover:bg-slate-800 text-white text-xs font-medium px-4 py-1.5 rounded-full transition shadow-2xs">
+          Session Backup &amp; Log
+        </button>
+      </div>
+    </div>
+
+    <!-- Primary Navigation Bar (Apple Segmented Track with Pure White Active Selection & Zero Clutter Icons) -->
+    <nav aria-label="Primary Placement Hub Views" class="apple-nav-shell">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex overflow-x-auto custom-scroll">
+        <div class="inline-flex items-center gap-1 bg-slate-200/70 p-1 rounded-full">
+          <button type="button" data-tab="curriculum" class="nav-tab-btn px-4 py-1.5 rounded-full text-xs sm:text-[13px] font-semibold whitespace-nowrap bg-white text-slate-950 shadow-sm ring-1 ring-black/5">
+            <span>12-Week Curriculum &amp; Daily Tasks</span>
+          </button>
+          <button type="button" data-tab="assessments" class="nav-tab-btn px-4 py-1.5 rounded-full text-xs sm:text-[13px] font-medium whitespace-nowrap text-slate-600 hover:text-slate-950">
+            <span>SWAYAM Weekly Graded Assessments</span>
+          </button>
+          <button type="button" data-tab="codekata" class="nav-tab-btn px-4 py-1.5 rounded-full text-xs sm:text-[13px] font-medium whitespace-nowrap text-slate-600 hover:text-slate-950">
+            <span>GUVI CodeKata &amp; SQLKata Arena</span>
+          </button>
+          <button type="button" data-tab="library" class="nav-tab-btn px-4 py-1.5 rounded-full text-xs sm:text-[13px] font-medium whitespace-nowrap text-slate-600 hover:text-slate-950">
+            <span>Video &amp; Official Docs Vault</span>
+          </button>
+          <button type="button" data-tab="portfolio" class="nav-tab-btn px-4 py-1.5 rounded-full text-xs sm:text-[13px] font-medium whitespace-nowrap text-slate-600 hover:text-slate-950">
+            <span>Portfolio Bridge &amp; Gap Analytics</span>
+          </button>
+          <button type="button" data-tab="guvi" class="nav-tab-btn px-4 py-1.5 rounded-full text-xs sm:text-[13px] font-medium whitespace-nowrap text-slate-600 hover:text-slate-950">
+            <span>GUVI Account Sync &amp; Monitor</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- APPLE-STYLE PUSH NOTIFICATION BANNER (Pops up on Module Completion or Skipped Day Detection) -->
+  <div id="push-banner-container" aria-live="polite" class="fixed top-20 right-4 sm:right-6 z-50 w-full max-w-sm pointer-events-none space-y-2.5"></div>
+
+  <!-- NOTIFICATION CENTER PANEL (Hidden When Not In Use) -->
+  <div id="notif-center-panel" class="apple-notif-card fixed top-20 right-4 sm:right-6 z-40 w-full max-w-md rounded-2xl p-4 hidden flex-col gap-3">
+    <div class="flex items-center justify-between pb-2.5 border-b border-slate-200/80">
+      <div>
+        <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block">Consistency &amp; Progress Engine</span>
+        <h3 class="text-sm font-semibold text-slate-950">Study Consistency Notifications</h3>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <button id="btn-check-consistency" type="button" class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 transition">
+          Check Skipped Days
+        </button>
+        <button id="btn-enable-os-push" type="button" class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-slate-950 hover:bg-slate-800 text-white transition">
+          Enable Browser Push
+        </button>
+        <button id="btn-close-notif-center" type="button" class="text-xs font-medium px-2 py-1 rounded-full text-slate-500 hover:text-slate-900">
+          Close
+        </button>
+      </div>
+    </div>
+    <div id="notif-history-list" class="max-h-72 overflow-y-auto custom-scroll space-y-2 pr-1"></div>
+    <div class="flex items-center justify-between pt-2 border-t border-slate-200/70 text-[11px] text-slate-500">
+      <span id="os-push-status-label">In-app push notifications active</span>
+      <button id="btn-clear-notifs" type="button" class="font-medium text-slate-600 hover:text-slate-950">Clear History</button>
+    </div>
+  </div>
+
+  <!-- HIDDEN-BY-DEFAULT SLIDE-OVER MENU DRAWER (Contains Weekly Tasks & 12-Week Syllabus, Hidden When Not in Use) -->
+  <div id="weekly-menu-backdrop" class="fixed inset-0 bg-black/25 backdrop-blur-xs z-40 hidden transition-opacity"></div>
+
+  <aside id="weekly-menu-drawer" aria-label="Weekly Tasks and Syllabus Menu" class="apple-drawer fixed top-0 left-0 bottom-0 w-full max-w-lg z-50 hidden flex-col shadow-2xl">
+    <!-- Menu Drawer Top Bar -->
+    <div class="px-5 py-4 border-b border-slate-200/80 flex items-center justify-between gap-3 bg-white/80">
+      <div>
+        <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block">Slide-Over Study Menu</span>
+        <h2 class="text-base font-semibold text-slate-950">Weekly Tasks &amp; 12-Week Syllabus</h2>
+      </div>
+      <button id="btn-close-menu" type="button" class="px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-medium transition">
+        Close Menu
+      </button>
+    </div>
+
+    <!-- Scrollable Menu Body: 1. Weekly Daily Tasks Checklist + 2. 12-Week Syllabus Selector -->
+    <div class="flex-1 overflow-y-auto custom-scroll p-5 space-y-6">
+      <!-- Section A: Active Week Daily Tasks & Custom Task Log -->
+      <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-2xs space-y-3.5">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-100">
+          <div>
+            <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">GUVI Daily Micro-Task Tracker</span>
+            <h3 id="menu-active-week-heading" class="text-sm font-semibold text-slate-950">Day-by-Day Action Plan (Mon–Sun)</h3>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button id="btn-mark-week-tasks" type="button" class="text-xs font-medium px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 transition">
+              Check All Days
+            </button>
+            <button id="btn-jump-quiz" type="button" class="text-xs font-medium px-3 py-1 rounded-full bg-slate-950 hover:bg-slate-800 text-white transition">
+              Take Week Quiz &rarr;
+            </button>
+          </div>
+        </div>
+
+        <div id="week-daily-tasks-list" class="space-y-2"></div>
+
+        <!-- Add Custom Daily Task Input -->
+        <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row gap-2">
+          <input id="custom-task-input" type="text" placeholder="Add a custom study task for this week..." class="flex-1 text-xs border border-slate-300 rounded-full px-3.5 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900">
+          <button id="btn-add-custom-task" type="button" class="bg-slate-950 hover:bg-slate-800 text-white text-xs font-medium px-4 py-2 rounded-full transition shrink-0">
+            + Add Custom Task
+          </button>
+        </div>
+      </div>
+
+      <!-- Section B: 12-Week Syllabus Selector -->
+      <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-2xs space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Switch Study Week</span>
+            <h3 class="text-sm font-semibold text-slate-950">12-Week Syllabus</h3>
+          </div>
+          <select id="phase-filter" aria-label="Filter weeks by phase" class="text-xs border border-slate-300 rounded-full px-3 py-1 bg-white text-slate-700">
+            <option value="all">All 4 Phases</option>
+            <option value="1">Phase 1: SQL, DSA &amp; Stats</option>
+            <option value="2">Phase 2: Classical Tabular ML</option>
+            <option value="3">Phase 3: DL, Time-Series &amp; LLM</option>
+            <option value="4">Phase 4: MLOps &amp; Mocks</option>
+          </select>
+        </div>
+        <div id="week-sidebar-list" class="space-y-1.5"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Workspace Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
+
+    <!-- Top Overall Progress Banner -->
+    <section class="bg-white rounded-xl border border-slate-200/80 p-4 sm:p-5 mb-6 shadow-sm">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-slate-200/80">
+              Stats Pillar Verified (85% Ready)
+            </span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-slate-200/80">
+              Priority #1 Gap: Classical Tabular ML &amp; Ensembles
+            </span>
+            <span id="last-session-pill" class="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200/80">
+              Session Persistence Active
+            </span>
+          </div>
+          <h2 class="text-base sm:text-lg font-semibold text-slate-950 mt-1.5">
+            Target Role: Data Scientist / Intern (Hewlett Packard Enterprise &amp; Tier-1 Analytics Drives)
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+            Combines <strong>SWAYAM/NPTEL</strong> structured weekly video lectures, concept notes, and graded assignments with <strong>HCL GUVI</strong> daily CodeKata tasks and XP tracking.
+          </p>
+        </div>
+        <div class="w-full md:w-72 shrink-0 bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200/80">
+          <div class="flex items-center justify-between text-xs font-semibold text-slate-800 mb-1.5">
+            <span>Overall Placement Readiness</span>
+            <span id="overall-pct-label" class="font-mono font-bold text-slate-950">0%</span>
+          </div>
+          <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+            <div id="overall-progress-bar" class="h-full bg-slate-900 transition-all duration-300" style="width: 0%"></div>
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-slate-500 mt-1.5">
+            <span id="videos-watched-count">0/24 Modules Watched</span>
+            <span id="weeks-cleared-count">0/12 Quizzes Passed</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 1: 12-WEEK CURRICULUM (CLEAN FULL-WIDTH VIEW; WEEKLY TASKS HIDDEN IN MENU UNTIL OPENED) -->
+    <section id="view-curriculum" class="tab-view space-y-6">
+      <!-- Week Header Card -->
+      <div id="week-detail-header" class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm"></div>
+
+      <!-- SWAYAM Concept Modules (Videos + Official Docs + Key Formulas) -->
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-slate-100">
+          <div>
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">SWAYAM Lecture &amp; Reading Module</span>
+            <h3 class="text-base font-semibold text-slate-950">Topic Concepts, Curated YouTube Lectures &amp; Official Documentation</h3>
+          </div>
+          <button id="btn-open-menu-inline" type="button" class="text-xs font-medium px-4 py-1.5 rounded-full bg-slate-950 hover:bg-slate-800 text-white transition">
+            Open Weekly Tasks Menu
+          </button>
+        </div>
+        <div id="week-concepts-list" class="space-y-4"></div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SWAYAM WEEKLY GRADED ASSESSMENTS -->
+    <section id="view-assessments" class="tab-view hidden space-y-6">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">SWAYAM-Style Weekly Evaluation</span>
+            <h2 class="text-lg font-semibold text-slate-950">Weekly Graded Placement Assessments (Weeks 1–12)</h2>
+            <p class="text-xs sm:text-sm text-slate-600">Score 80% or higher on each weekly assessment to earn your Placement Readiness Badge (+100 GeekCoins per passed quiz). Your selected answers and graded explanations persist automatically.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <label for="assessment-week-select" class="text-xs font-semibold text-slate-600">Select Week:</label>
+            <select id="assessment-week-select" class="text-xs sm:text-sm font-medium border border-slate-300 rounded-xl px-3 py-2 bg-white text-slate-800"></select>
+          </div>
+        </div>
+
+        <div id="assessment-container" class="mt-5 space-y-5"></div>
+
+        <div class="mt-6 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <div id="assessment-result-banner" class="text-sm font-semibold text-slate-700">
+            Select an answer for every question and click Submit Graded Assignment.
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btn-reset-quiz" type="button" class="px-4 py-2 rounded-full border border-slate-300 text-xs sm:text-sm font-medium text-slate-700 hover:bg-slate-100 transition">
+              Reset Week Answers
+            </button>
+            <button id="btn-submit-quiz" type="button" class="px-5 py-2 rounded-full bg-slate-950 hover:bg-slate-800 text-white text-xs sm:text-sm font-medium transition shadow-sm">
+              Submit Graded Assignment
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: GUVI CODEKATA & SQLKATA PRACTICE ARENA -->
+    <section id="view-codekata" class="tab-view hidden space-y-6">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">HCL GUVI CodeKata &amp; SQLKata Sandbox</span>
+            <h2 class="text-lg font-semibold text-slate-950">Interactive Placement Coding &amp; Architecture Drills</h2>
+            <p class="text-xs sm:text-sm text-slate-600">Practice high-frequency SQL Window Functions, Python DSA, Classical ML Pipelines, and CNN Parameter Refactoring directly in-browser. Your code auto-saves as you type.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <label for="kata-select" class="text-xs font-semibold text-slate-600">Challenge:</label>
+            <select id="kata-select" class="text-xs sm:text-sm font-medium border border-slate-300 rounded-xl px-3 py-2 bg-white text-slate-800"></select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-5">
+          <!-- Left Problem Statement -->
+          <div class="lg:col-span-5 space-y-4">
+            <div id="kata-problem-box" class="bg-slate-50 rounded-xl border border-slate-200 p-4 space-y-3"></div>
+            <div id="kata-hint-box" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-3.5 text-xs text-amber-900"></div>
+          </div>
+
+          <!-- Right Code Editor & Validator -->
+          <div class="lg:col-span-7 space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <span id="kata-lang-badge" class="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-slate-900 text-white">SQL / Python</span>
+              <div class="flex items-center gap-2">
+                <button id="btn-kata-reset-code" type="button" class="text-xs font-medium px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+                  Reset Starter
+                </button>
+                <button id="btn-kata-hint" type="button" class="text-xs font-medium px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 transition">
+                  Show Hint
+                </button>
+                <button id="btn-kata-solution" type="button" class="text-xs font-medium px-3 py-1 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-900 transition">
+                  Load Model Solution
+                </button>
+              </div>
+            </div>
+            <textarea id="kata-editor" rows="10" spellcheck="false" class="w-full font-mono text-xs sm:text-sm bg-slate-950 text-slate-100 p-4 rounded-2xl border border-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600"></textarea>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-500">Checks key syntax tokens, window functions, and algorithmic patterns (+50 GeekCoins).</span>
+              <button id="btn-run-kata" type="button" class="bg-slate-950 hover:bg-slate-800 text-white text-xs sm:text-sm font-medium px-5 py-2 rounded-full transition shadow-sm">
+                Run &amp; Verify CodeKata
+              </button>
+            </div>
+            <div id="kata-output-box" class="bg-slate-100 border border-slate-200 rounded-xl p-3.5 text-xs font-mono text-slate-700">
+              Ready to evaluate your solution...
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: VIDEO & OFFICIAL DOCS VAULT -->
+    <section id="view-library" class="tab-view hidden space-y-6">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Verified Resource Directory</span>
+            <h2 class="text-lg font-semibold text-slate-950">Complete YouTube Lecture, Official Documentation &amp; Practice Platform Vault</h2>
+            <p class="text-xs sm:text-sm text-slate-600">Filter by competency pillar or search any topic (e.g., XGBoost, Window Functions, PCA, FastAPI, Prophet, SHAP, SWAYAM, GUVI).</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <input id="library-search" type="text" placeholder="Search topic, channel, or library..." class="text-xs sm:text-sm border border-slate-300 rounded-full px-4 py-1.5 focus:outline-none focus:ring-2 focus:ring-slate-900">
+            <select id="library-category-filter" aria-label="Filter library by category" class="text-xs sm:text-sm border border-slate-300 rounded-full px-3.5 py-1.5 bg-white text-slate-700">
+              <option value="all">All Categories</option>
+              <option value="YouTube">YouTube Concept Lectures</option>
+              <option value="Official Docs">Official Documentation</option>
+              <option value="Course &amp; Practice">SWAYAM / GUVI / Practice</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="library-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5"></div>
+      </div>
+    </section>
+
+    <!-- TAB 6: HCL GUVI ACCOUNT SYNC & LEARNING MONITOR -->
+    <section id="view-guvi" class="tab-view hidden space-y-6">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800">HCL GUVI Connected Profile</span>
+              <span id="guvi-sync-badge" class="text-xs font-medium text-slate-500">Last Synced: Just now</span>
+            </div>
+            <h2 class="text-lg font-semibold text-slate-950 mt-1">HCL GUVI Account Bridge &amp; Live Course/CodeKata Monitor</h2>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Linked to your resume email (<code>shanjaikumar2812@gmail.com</code>) and verified certifications (<strong>GUVI x HCL: Data Science &amp; Analytics</strong> &amp; <strong>Data Science Foundation</strong>). Launch your GUVI modules directly or sync your CodeKata/course progress below.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <a id="guvi-direct-profile-link" href="https://www.guvi.in/courses/?current_tab=myCourses" target="_blank" rel="noopener noreferrer" class="bg-slate-950 hover:bg-slate-800 text-white text-xs sm:text-sm font-medium px-4 py-2 rounded-full transition shadow-sm">
+              Open My GUVI Dashboard &nearr;
+            </a>
+          </div>
+        </div>
+
+        <!-- GUVI Profile Connection Settings & Live Stats -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-5">
+          <!-- Left: Account Credentials / Profile Link & Quick Launchers -->
+          <div class="lg:col-span-5 space-y-4">
+            <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 space-y-3">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500">1. GUVI Profile Configuration</h3>
+              <div>
+                <label for="guvi-email-input" class="block text-xs font-semibold text-slate-700 mb-1">Registered GUVI Email</label>
+                <input id="guvi-email-input" type="email" value="shanjaikumar2812@gmail.com" class="w-full text-xs sm:text-sm border border-slate-300 rounded-xl px-3 py-2 bg-white text-slate-800">
+              </div>
+              <div>
+                <label for="guvi-username-input" class="block text-xs font-semibold text-slate-700 mb-1">GUVI Profile URL or Handle</label>
+                <input id="guvi-username-input" type="text" value="https://www.guvi.in/shanjaikumar2812" placeholder="https://www.guvi.in/your-username" class="w-full text-xs sm:text-sm border border-slate-300 rounded-xl px-3 py-2 bg-white text-slate-800">
+              </div>
+              <div class="flex items-center justify-between pt-1">
+                <span class="text-[11px] text-slate-500">Auto-saves &amp; syncs across reloads</span>
+                <button id="btn-save-guvi-profile" type="button" class="bg-slate-950 hover:bg-slate-800 text-white text-xs font-medium px-4 py-1.5 rounded-full transition">
+                  Save &amp; Link GUVI Profile
+                </button>
+              </div>
+            </div>
+
+            <!-- 1-Click GUVI Practice Portals -->
+            <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 space-y-2.5">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500">2. Direct GUVI Learning Launchers</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <a href="https://www.guvi.in/courses/?current_tab=myCourses" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-slate-400 text-xs font-medium text-slate-800 flex items-center justify-between transition">
+                  <span>My GUVI Courses</span><span>&nearr;</span>
+                </a>
+                <a href="https://www.guvi.in/code-kata/" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-slate-400 text-xs font-medium text-slate-800 flex items-center justify-between transition">
+                  <span>GUVI CodeKata</span><span>&nearr;</span>
+                </a>
+                <a href="https://www.guvi.in/web-kata/" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-slate-400 text-xs font-medium text-slate-800 flex items-center justify-between transition">
+                  <span>GUVI WebKata</span><span>&nearr;</span>
+                </a>
+                <a href="https://www.guvi.in/ide" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-slate-400 text-xs font-medium text-slate-800 flex items-center justify-between transition">
+                  <span>GUVI Online IDE</span><span>&nearr;</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Live GUVI Course & CodeKata Progress Monitor -->
+          <div class="lg:col-span-7 space-y-4">
+            <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 space-y-4">
+              <div class="flex items-center justify-between">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500">3. GUVI Course &amp; CodeKata Tracker</h3>
+                <span class="text-xs font-mono font-semibold text-slate-700" id="guvi-total-points-badge">Synced with App XP</span>
+              </div>
+
+              <!-- Synced Metrics Inputs -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                  <label for="guvi-codekata-solved" class="block text-[11px] font-semibold text-slate-500 uppercase">CodeKata Solved</label>
+                  <input id="guvi-codekata-solved" type="number" min="0" value="45" class="mt-1 w-full font-mono text-base font-bold text-slate-950 border-b border-slate-300 focus:outline-none focus:border-slate-900">
+                  <span class="text-[11px] text-slate-500">Target: 150 problems</span>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                  <label for="guvi-geekcoins-input" class="block text-[11px] font-semibold text-slate-500 uppercase">GUVI GeekCoins</label>
+                  <input id="guvi-geekcoins-input" type="number" min="0" value="1250" class="mt-1 w-full font-mono text-base font-bold text-slate-950 border-b border-slate-300 focus:outline-none focus:border-slate-900">
+                  <span class="text-[11px] text-slate-500">Added to Top Bar XP</span>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                  <label for="guvi-streak-input" class="block text-[11px] font-semibold text-slate-500 uppercase">Daily GUVI Streak</label>
+                  <input id="guvi-streak-input" type="number" min="0" value="7" class="mt-1 w-full font-mono text-base font-bold text-slate-950 border-b border-slate-300 focus:outline-none focus:border-slate-900">
+                  <span class="text-[11px] text-slate-500">Consecutive Days</span>
+                </div>
+              </div>
+
+              <!-- Enrolled GUVI Courses List -->
+              <div id="guvi-courses-list" class="space-y-2.5 pt-2"></div>
+
+              <!-- Add New GUVI Module or CodeKata Log -->
+              <div class="pt-3 border-t border-slate-200 flex flex-col sm:flex-row gap-2">
+                <input id="guvi-new-module-input" type="text" placeholder="Log a GUVI module or CodeKata topic (e.g., 'GUVI SQL Window Functions Module - 100%')..." class="flex-1 text-xs sm:text-sm border border-slate-300 rounded-full px-4 py-2 bg-white">
+                <button id="btn-add-guvi-module" type="button" class="bg-slate-950 hover:bg-slate-800 text-white text-xs font-medium px-5 py-2 rounded-full transition shrink-0">
+                  + Log GUVI Activity
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: PORTFOLIO BRIDGE & GAP ANALYTICS -->
+    <section id="view-portfolio" class="tab-view hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left Chart Card -->
+        <div class="lg:col-span-6 bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Live Competency Radar</span>
+          <h3 class="text-base font-semibold text-slate-950 mt-0.5">Your Portfolio Readiness vs. Hiring Target (%)</h3>
+          <p class="text-xs text-slate-600 mb-4">Inferential Statistics is updated to 85% based on your mastery. Completing weekly tasks dynamically boosts your readiness bars!</p>
+          <div class="relative h-72 w-full">
+            <canvas id="gapChartCanvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Right Portfolio Bridge & Resume Audit Checklist -->
+        <div class="lg:col-span-6 bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Actionable Deliverables</span>
+            <h3 class="text-base font-semibold text-slate-950 mt-0.5">5 Resume Fixes &amp; 3 Portfolio Bridge Milestones</h3>
+            <p class="text-xs text-slate-600">Check off each item as you update <code>Resum.docx</code> and push the 3 GitHub upgrades (+75 GeekCoins each).</p>
+          </div>
+          <div id="portfolio-bridge-list" class="space-y-2.5 max-h-80 overflow-y-auto custom-scroll pr-1"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Export & Session Backup / Restore Modal Dialog -->
+  <div id="export-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-5 sm:p-6 shadow-xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+        <div>
+          <h3 class="text-base sm:text-lg font-semibold text-slate-950">Session Backup, Restore &amp; Study Log</h3>
+          <p class="text-xs text-slate-500">Your session auto-saves to Browser Storage, IndexedDB &amp; Local Server. You can also download or restore a JSON snapshot anytime.</p>
+        </div>
+        <button id="btn-close-modal" type="button" class="text-slate-400 hover:text-slate-700 text-sm font-semibold px-2 py-1 rounded">✕ Close</button>
+      </div>
+      <textarea id="export-textarea" rows="10" readonly class="w-full font-mono text-xs bg-slate-50 border border-slate-300 rounded-xl p-3 text-slate-800"></textarea>
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="btn-download-json" type="button" class="px-4 py-2 rounded-full bg-slate-950 hover:bg-slate-800 text-white text-xs font-medium transition">
+            Download Session (.json)
+          </button>
+          <label for="input-restore-json" class="cursor-pointer px-4 py-2 rounded-full border border-slate-300 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-medium transition">
+            Restore Session (.json)
+          </label>
+          <input id="input-restore-json" type="file" accept=".json,application/json" class="hidden">
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="btn-reset-all-progress" type="button" class="px-3.5 py-2 rounded-full border border-red-300 text-red-700 hover:bg-red-50 text-xs font-medium transition">
+            Reset All Progress
+          </button>
+          <button id="btn-copy-export" type="button" class="px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition">
+            Copy Summary
+          </button>
+        </div>
+      </div>
+      <div id="copy-status-msg" class="text-xs text-emerald-700 font-semibold min-h-[1rem]"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-box" class="fixed bottom-4 right-4 z-50 hidden bg-slate-950 text-white text-xs sm:text-sm font-medium px-4 py-2.5 rounded-full shadow-lg border border-slate-800"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
